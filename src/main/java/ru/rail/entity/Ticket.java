@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "ticket")
+@Table(name = "ticket", schema = "public")
 public class Ticket {
     @Id
     private Long id;
