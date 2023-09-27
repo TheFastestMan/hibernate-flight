@@ -17,26 +17,20 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HibernateRunnerTest {
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/flight_repository";
-    private static final String USER = "postgres";
-    private static final String PASS = "postgres";
     private Connection connection;
+    private final String DB_URL = "jdbc:postgresql://localhost:5432/flight_repository";
+    private final String USER = "postgres";
+    private final String PASS = "postgres";
 
     @BeforeEach
     public void setUp() throws Exception {
         connection = DriverManager.getConnection(DB_URL, USER, PASS);
-        connection.setAutoCommit(false); // Start transaction
-    }
-
-    @AfterEach
-    public void tearDown() throws Exception {
-        connection.rollback(); // Rollback transaction after each test to leave DB unchanged
-        connection.close();
     }
 
     @Test
     public void testSaveTicket() {
         Ticket ticket = createTestTicket();
+
         String sql = generateInsertSQL(ticket);
 
         try (Statement stmt = connection.createStatement()) {
@@ -51,6 +45,7 @@ class HibernateRunnerTest {
     public void testUpdateTicket() {
         Ticket ticket = createTestTicket();
         ticket.setPassengerName("Updated Name");
+
         String sql = generateUpdateSQL(ticket);
 
         try (Statement stmt = connection.createStatement()) {
@@ -64,6 +59,7 @@ class HibernateRunnerTest {
     @Test
     public void testDeleteTicket() {
         Ticket ticket = createTestTicket();
+
         String sql = generateDeleteSQL(ticket);
 
         try (Statement stmt = connection.createStatement()) {
@@ -76,11 +72,11 @@ class HibernateRunnerTest {
 
     private Ticket createTestTicket() {
         return Ticket.builder()
-                .id(65L)
+                .id(66L)
                 .passportNo("LS9868FT")
                 .passengerName("AxelLL Miller")
-                .flightId(2L)
-                .seatNo("C2")
+                .flightId(1L)
+                .seatNo("A3")
                 .cost(100)
                 .build();
     }
